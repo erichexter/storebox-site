@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoreBox — Know What You Own</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --text: #f0f0f5;
+      --muted: #9b9bb8;
+      --border: #2e3250;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    nav a.cta-nav {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    nav a.cta-nav:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      padding: 7rem 2rem 5rem;
+      text-align: center;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.35);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.25rem;
+    }
+    h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: var(--surface2); }
+
+    /* PROBLEM STRIP */
+    .problem-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .problem-strip p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .problem-strip strong { color: var(--text); }
+
+    /* FEATURES */
+    section { padding: 5rem 2rem; }
+    .section-label {
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      text-align: center;
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* BLITZ HIGHLIGHT */
+    .blitz-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .blitz-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .blitz-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .blitz-inner h2 { text-align: left; }
+    .blitz-inner .section-sub { text-align: left; margin-left: 0; }
+    .blitz-steps {
+      list-style: none;
+      counter-reset: step;
+    }
+    .blitz-steps li {
+      counter-increment: step;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .blitz-steps li::before {
+      content: counter(step);
+      min-width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .blitz-steps li strong { color: var(--text); }
+    .blitz-visual {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .blitz-visual .kw { color: var(--accent); }
+    .blitz-visual .val { color: var(--accent2); }
+    .blitz-visual .comment { color: #555; }
+
+    /* USE CASES */
+    .usecases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .usecase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .usecase-card .uc-icon {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+    }
+    .usecase-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .usecase-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* LABEL FEATURE */
+    .label-section { background: var(--bg); }
+    .label-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 640px) {
+      .label-inner { grid-template-columns: 1fr; }
+    }
+    .label-inner h2 { text-align: left; }
+    .label-inner .section-sub { text-align: left; margin-left: 0; }
+    .label-card {
+      background: #fff;
+      color: #111;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: monospace;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .label-card .lc-id {
+      background: #111;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.4rem;
+      border-radius: 6px 6px 0 0;
+      letter-spacing: 0.1em;
+    }
+    .label-card .lc-qr {
+      width: 120px;
+      height: 120px;
+      margin: 1rem auto;
+      background: repeating-conic-gradient(#111 0% 25%, #fff 0% 50%) 0 0 / 12px 12px;
+      border-radius: 4px;
+    }
+    .label-card .lc-loc {
+      font-size: 0.75rem;
+      color: #555;
+      margin-bottom: 0.4rem;
+    }
+    .label-card .lc-count {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #111;
+    }
+    .label-card .lc-date {
+      font-size: 0.7rem;
+      color: #888;
+      margin-top: 0.4rem;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(108,99,255,0.12) 0%, rgba(0,212,170,0.08) 100%);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .cta-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta-inner h2 { margin-bottom: 1rem; }
+    .cta-inner p { color: var(--muted); margin-bottom: 2rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Store<span>Box</span></a>
+  <a href="https://github.com/erichexter/storebox" class="cta-nav">View on GitHub</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Open Source · Self-Hosted</div>
+  <h1>Stop searching.<br><span class="highlight">Know what you own.</span></h1>
+  <p>StoreBox turns your tubs, shelves, and storage units into a searchable inventory — powered by AI photo scanning and QR labels.</p>
+  <div class="hero-actions">
+    <a href="https://github.com/erichexter/storebox" class="btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      Get StoreBox
+    </a>
+    <a href="#features" class="btn-secondary">See Features</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<div class="problem-strip">
+  <p><strong>"I know I have this somewhere…"</strong> — StoreBox fixes the 30-tub garage problem. Snap a photo, let AI catalog what's inside, print a QR label, and search everything from your phone in seconds.</p>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything in its place</h2>
+  <p class="section-sub">Built for garages, workshops, storage units, and anywhere things get lost.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Blitz Cataloging</h3>
+      <p>Catalog 15 containers in 30 minutes. Snap a photo, AI identifies the items, confirm and move on. No typing required.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Photo Scanning</h3>
+      <p>Claude AI reads your photos and generates an item checklist. Uncheck what's wrong, confirm what's right. Done.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>Full-Text Search</h3>
+      <p>Search by item name, container name, category, or location. Find the power drill before you start looking in boxes.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏷️</div>
+      <h3>QR Label Printing</h3>
+      <p>Print-ready labels for the Brother QL-820NWB — QR code, container ID, location breadcrumb, item count. Stick it, scan it, done.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <h3>Storage Hierarchy</h3>
+      <p>Organize by Location → Room → Container → Zone. Map your actual space — garage west wall, attic bay 3, spare bedroom closet.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Self-Hosted</h3>
+      <p>Your data stays on your server. No subscription, no cloud lock-in, no one else has access to your inventory.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BLITZ MODE -->
+<section class="blitz-section">
+  <div class="blitz-inner" style="padding: 5rem 2rem;">
+    <div>
+      <div class="section-label">Blitz Mode</div>
+      <h2>30 boxes in 60 minutes</h2>
+      <p class="section-sub">Designed for the "I just moved and nothing is labeled" problem.</p>
+      <ol class="blitz-steps">
+        <li><span>Open <strong>Blitz Mode</strong> (⚡ button), select your storage location</span></li>
+        <li><span>Tap <strong>Snap Photo</strong> — point at the open box</span></li>
+        <li><span><strong>Analyze Photo</strong> — AI returns an item checklist instantly</span></li>
+        <li><span>Uncheck anything wrong, tap <strong>Confirm &amp; Next</strong></span></li>
+        <li><span>Next container auto-created. Repeat until done.</span></li>
+        <li><span>Session summary: containers cataloged + total items added</span></li>
+      </ol>
+    </div>
+    <div class="blitz-visual">
+      <div><span class="comment">// Blitz session complete</span></div>
+      <div>&nbsp;</div>
+      <div><span class="kw">Session</span> <span class="val">#SB-2024-11-04</span></div>
+      <div>Location: <span class="val">Garage / West Wall</span></div>
+      <div>&nbsp;</div>
+      <div><span class="kw">Containers cataloged:</span> <span class="val">15</span></div>
+      <div><span class="kw">Items added:</span>         <span class="val">73</span></div>
+      <div><span class="kw">AI scans:</span>            <span class="val">15 / 15 ✓</span></div>
+      <div><span class="kw">Labels ready:</span>        <span class="val">15 ✓</span></div>
+      <div>&nbsp;</div>
+      <div><span class="comment">// Duration: 28 minutes</span></div>
+      <div><span class="comment">// All containers now searchable</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="use-cases">
+  <div class="section-label">Use Cases</div>
+  <h2>Built for real spaces</h2>
+  <p class="section-sub">Wherever you store things, StoreBox brings order to it.</p>
+  <div class="usecases-grid">
+    <div class="usecase-card">
+      <div class="uc-icon">🔧</div>
+      <h3>Garage &amp; Workshop</h3>
+      <p>Hardware, tools, spare parts. QR labels on every bin. Search "3/8 bolt" instead of opening 12 drawers.</p>
+    </div>
+    <div class="usecase-card">
+      <div class="uc-icon">📦</div>
+      <h3>Storage Unit</h3>
+      <p>Seasonal items, furniture, boxes from three moves ago. Know what's there without making a trip.</p>
+    </div>
+    <div class="usecase-card">
+      <div class="uc-icon">🏠</div>
+      <h3>Home Inventory</h3>
+      <p>Attic, basement, spare bedroom. Every tub cataloged. Photo evidence for insurance. Everything findable.</p>
+    </div>
+    <div class="usecase-card">
+      <div class="uc-icon">🏪</div>
+      <h3>Small Business</h3>
+      <p>Parts room, supply closet, back stock. Self-hosted means it runs on your hardware, under your control.</p>
+    </div>
+    <div class="usecase-card">
+      <div class="uc-icon">🎨</div>
+      <h3>Makers &amp; Crafters</h3>
+      <p>Filament rolls, fabric, electronics components. Stop buying duplicates. Know what you have before ordering more.</p>
+    </div>
+    <div class="usecase-card">
+      <div class="uc-icon">🚗</div>
+      <h3>Auto &amp; Off-Road</h3>
+      <p>Parts bins, recovery gear, seasonal gear. Categorize by vehicle. Find the trail kit before Friday night.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LABEL FEATURE -->
+<section class="label-section">
+  <div class="label-inner" style="padding: 5rem 2rem; max-width: 1000px; margin: 0 auto;">
+    <div>
+      <div class="section-label">Label Printing</div>
+      <h2>Labels that<br>actually work</h2>
+      <p class="section-sub" style="margin-left:0;text-align:left;">Every container gets a print-ready label — QR code, ID, location, item count. Optimized for the Brother QL-820NWB 62mm tape. Print to PDF or download PNG.</p>
+      <br/>
+      <p style="color:var(--muted);font-size:0.9rem;">Scan the QR code → straight to the container's item list. No app install required.</p>
+    </div>
+    <div class="label-card">
+      <div class="lc-id">SB-0024</div>
+      <div class="lc-qr"></div>
+      <div class="lc-loc">Garage / West Wall / Bin 3</div>
+      <div class="lc-count">🔧 Hardware · 12 items</div>
+      <div class="lc-date">Updated 2026-05-08</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner" style="padding: 5rem 2rem;">
+    <h2>Start knowing what you own.</h2>
+    <p>Open source, self-hosted, no subscription. Deploy in minutes on any machine that can run Docker.</p>
+    <div class="hero-actions">
+      <a href="https://github.com/erichexter/storebox" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>StoreBox is open source. <a href="https://github.com/erichexter/storebox">GitHub</a> · Built by <a href="https://github.com/erichexter">@erichexter</a></p>
+</footer>
+
+</body>
+</html>
