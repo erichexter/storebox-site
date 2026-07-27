@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoreBox — Support</title>
+  <meta name="description" content="StoreBox support and FAQ. Get help with containers, labels, the AI photo scan, and your data." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a;
+      --accent: #6c63ff; --accent2: #00d4aa; --text: #f0f0f5;
+      --muted: #9b9bb8; --border: #2e3250; --radius: 12px;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(15,17,23,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    nav a.cta-nav { background: var(--accent); color: #fff; padding: 0.45rem 1.1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    nav a.cta-nav:hover { opacity: 0.85; }
+    main { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 0.4rem; }
+    .updated { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.75rem; }
+    h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; margin: 2.25rem 0 0.6rem; }
+    .q { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 1.5rem 0 0.35rem; }
+    p, li { color: #d0d0dc; margin-bottom: 0.75rem; }
+    strong { color: var(--text); }
+    a { color: var(--accent2); }
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent2); border-radius: var(--radius); padding: 1.1rem 1.25rem; margin: 1.5rem 0; }
+    .callout p:last-child { margin-bottom: 0; }
+    .big-mail { font-size: 1.1rem; font-weight: 700; }
+    footer { border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; text-align: center; padding: 2rem; }
+    footer a { color: var(--muted); margin: 0 0.5rem; }
+    footer a:hover { color: var(--text); }
+    footer .links { margin-bottom: 0.6rem; }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Store<span>Box</span></a>
+  <a href="mailto:eric@hexgarage.com?subject=StoreBox%20Support" class="cta-nav">Email us</a>
+</nav>
+
+<main>
+  <h1>Support</h1>
+  <p class="updated">We&rsquo;re happy to help.</p>
+
+  <div class="callout">
+    <p class="big-mail"><a href="mailto:eric@hexgarage.com?subject=StoreBox%20Support">eric@hexgarage.com</a></p>
+    <p>Tell us your device and iOS version and what you were doing, and we&rsquo;ll get back to you.</p>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+
+  <p class="q">Where is my data stored?</p>
+  <p>Everything you add lives in a database on your own device. StoreBox works without an account, and
+  we never receive a copy of your inventory. See our <a href="privacy.html">Privacy Policy</a> for
+  details.</p>
+
+  <p class="q">How do the QR labels work?</p>
+  <p>Each container gets its own code. Print or stick a label on the box, then scan it in the app to
+  jump straight to that container&rsquo;s contents.</p>
+
+  <p class="q">What is the AI photo scan?</p>
+  <p>It&rsquo;s an optional feature: take a photo of an open box and StoreBox can suggest the items
+  inside so you don&rsquo;t have to type each one. It only runs when you ask it to.</p>
+
+  <p class="q">Will I lose my data if I get a new phone?</p>
+  <p>Because your data is stored on the device, use your device&rsquo;s standard backup and restore to
+  move it to a new phone. Uninstalling the app removes its data, so keep a backup before you do.</p>
+
+  <p class="q">How do I delete my data?</p>
+  <p>Delete any container, item, or photo inside the app at any time, or uninstall the app to remove
+  all of its data from your device.</p>
+
+  <h2>Still stuck?</h2>
+  <p>Email <a href="mailto:eric@hexgarage.com?subject=StoreBox%20Support">eric@hexgarage.com</a> and
+  we&rsquo;ll help you out.</p>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="privacy.html">Privacy</a>&middot;
+    <a href="terms.html">Terms</a>&middot;
+    <a href="support.html">Support</a>
+  </div>
+  <p>&copy; 2026 StoreBox. Built by Hex.</p>
+</footer>
+</body>
+</html>
