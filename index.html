@@ -3,536 +3,287 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StoreBox — Know What You Own</title>
+  <title>StoreBox — Know what's in every tote</title>
+  <meta name="description" content="For the DIY crowd who build racks of 27-gallon totes: StoreBox catalogs what's inside every identical opaque bin, so you find anything without pulling one down. Private, on-device, no account." />
+  <meta property="og:title" content="StoreBox — Know what's in every tote" />
+  <meta property="og:description" content="You built the rack. StoreBox tells you which tote the drill is in — without pulling one down." />
+  <meta property="og:image" content="assets/hero-garage-rack.jpeg" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --surface2: #22263a;
-      --accent: #6c63ff;
-      --accent2: #00d4aa;
-      --text: #f0f0f5;
-      --muted: #9b9bb8;
-      --border: #2e3250;
-      --radius: 12px;
+      --bg: #0c111c;
+      --bg2: #131b2b;
+      --panel: #16203300;
+      --fg: #eef2f8;
+      --muted: #8ea0bd;
+      --amber: #f6a01a;      /* tote/label yellow-orange = the app's Blitz accent */
+      --amber-soft: rgba(246,160,26,0.14);
+      --steel: #3b82f6;
+      --navy-chip: #123a6b;  /* the container-ID chip color from the app */
+      --border: rgba(255,255,255,0.09);
+      --radius: 14px;
+      --mono: ui-monospace, 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
     }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      background: var(--bg); color: var(--fg); line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
+    img { max-width: 100%; display: block; }
+    a { color: var(--amber); text-decoration: none; }
 
+    /* ---- Nav ---- */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(15,17,23,0.92);
-      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,17,28,0.86); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
+      padding: 0 clamp(1rem, 4vw, 2.5rem);
+      display: flex; align-items: center; justify-content: space-between; height: 62px;
     }
-    .nav-logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      text-decoration: none;
+    .nav-logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--fg); }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-links a.plain { color: var(--muted); font-size: 0.9rem; }
+    .nav-links a.plain:hover { color: var(--fg); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--amber); color: #1a1204; font-weight: 700;
+      padding: 0.6rem 1.25rem; border-radius: 9px; font-size: 0.95rem;
+      transition: transform 0.15s, filter 0.15s;
     }
-    .nav-logo span { color: var(--accent); }
-    nav a.cta-nav {
-      background: var(--accent);
-      color: #fff;
-      padding: 0.45rem 1.1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s;
-    }
-    nav a.cta-nav:hover { opacity: 0.85; }
+    .btn:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
+    .btn.big { padding: 0.95rem 1.9rem; font-size: 1.05rem; }
+    .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); }
+    .btn.ghost:hover { border-color: var(--muted); filter: none; }
 
-    .hero {
-      padding: 7rem 2rem 5rem;
-      text-align: center;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(108,99,255,0.15);
-      border: 1px solid rgba(108,99,255,0.35);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      margin-bottom: 1.5rem;
-    }
-    h1 {
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -1.5px;
-      margin-bottom: 1.25rem;
-    }
-    h1 .highlight {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--muted);
-      max-width: 620px;
-      margin: 0 auto 2.5rem;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      padding: 0.8rem 2rem;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: transform 0.15s, opacity 0.15s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 0.8rem 2rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: background 0.15s;
-    }
-    .btn-secondary:hover { background: var(--surface2); }
-
-    .problem-strip {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 2.5rem 2rem;
-      text-align: center;
-    }
-    .problem-strip p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 680px;
-      margin: 0 auto;
-    }
-    .problem-strip strong { color: var(--text); }
-
-    section { padding: 5rem 2rem; }
-    .section-label {
-      text-align: center;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    h2 {
-      text-align: center;
-      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.8px;
-      margin-bottom: 1rem;
-    }
-    .section-sub {
-      text-align: center;
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 560px;
-      margin: 0 auto 3.5rem;
+    .eyebrow {
+      font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.16em;
+      font-size: 0.74rem; font-weight: 600; color: var(--amber);
     }
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
+    /* ---- Hero ---- */
+    .hero { position: relative; min-height: 82vh; display: flex; align-items: flex-end; overflow: hidden; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center right; }
+    .hero-scrim {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(12,17,28,0.55) 0%, rgba(12,17,28,0.30) 35%, rgba(12,17,28,0.86) 82%, var(--bg) 100%),
+        linear-gradient(90deg, rgba(12,17,28,0.80) 0%, rgba(12,17,28,0.15) 60%);
     }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1120px; margin: 0 auto; width: 100%;
+      padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 6vw, 4.5rem);
     }
-    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .feature-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    .hero h1 {
+      font-size: clamp(2.3rem, 6vw, 4.2rem); font-weight: 850; line-height: 1.06;
+      letter-spacing: -1.6px; margin: 0.9rem 0 1.1rem; max-width: 15ch; text-wrap: balance;
+    }
+    .hero h1 .hl { color: var(--amber); }
+    .hero p.sub { font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: #d5deec; max-width: 46ch; margin-bottom: 1.9rem; }
+    .hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; align-items: center; }
+    .hero-note { color: var(--muted); font-size: 0.82rem; margin-top: 1.1rem; font-family: var(--mono); }
 
-    .blitz-section {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .blitz-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    @media (max-width: 720px) { .blitz-inner { grid-template-columns: 1fr; gap: 2rem; } }
-    .blitz-inner h2 { text-align: left; }
-    .blitz-inner .section-sub { text-align: left; margin-left: 0; }
-    .blitz-steps { list-style: none; counter-reset: step; }
-    .blitz-steps li {
-      counter-increment: step;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    .blitz-steps li::before {
-      content: counter(step);
-      min-width: 28px;
-      height: 28px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-    .blitz-steps li strong { color: var(--text); }
-    .blitz-visual {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-    .blitz-visual .kw { color: var(--accent); }
-    .blitz-visual .val { color: var(--accent2); }
-    .blitz-visual .comment { color: #555; }
+    /* ---- Sections ---- */
+    section { padding: clamp(3.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem); }
+    .wrap { max-width: 1120px; margin: 0 auto; }
+    .center { text-align: center; }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 820; letter-spacing: -0.9px; line-height: 1.1; text-wrap: balance; }
+    .lead { color: var(--muted); font-size: 1.1rem; max-width: 56ch; margin: 1rem auto 0; }
 
-    .usecases-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .usecase-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-    }
-    .usecase-card .uc-icon { font-size: 2.4rem; margin-bottom: 1rem; }
-    .usecase-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .usecase-card p { color: var(--muted); font-size: 0.9rem; }
+    /* Problem strip */
+    .problem { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .problem .wrap { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    .problem .big-q { font-size: clamp(1.5rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.6px; line-height: 1.25; text-wrap: balance; }
+    .problem .big-q b { color: var(--amber); }
+    .problem p { color: var(--muted); font-size: 1.05rem; max-width: 58ch; }
 
-    .label-section { background: var(--bg); }
-    .label-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .step { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; }
+    .step .num {
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 700; color: #1a1204;
+      background: var(--amber); width: 30px; height: 30px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem;
     }
-    @media (max-width: 640px) { .label-inner { grid-template-columns: 1fr; } }
-    .label-inner h2 { text-align: left; }
-    .label-card {
-      background: #fff;
-      color: #111;
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      font-family: monospace;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    .step h3 { font-size: 1.15rem; font-weight: 750; margin-bottom: 0.4rem; }
+    .step p { color: var(--muted); font-size: 0.97rem; }
+    .chip {
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 700; color: #dbe7ff;
+      background: var(--navy-chip); padding: 0.2rem 0.55rem; border-radius: 6px; letter-spacing: 0.02em;
     }
-    .label-card .lc-id { background: #111; color: #fff; font-size: 0.85rem; font-weight: 700; padding: 0.4rem; border-radius: 6px 6px 0 0; letter-spacing: 0.1em; }
-    .label-card .lc-qr { width: 120px; height: 120px; margin: 1rem auto; background: repeating-conic-gradient(#111 0% 25%, #fff 0% 50%) 0 0 / 12px 12px; border-radius: 4px; }
-    .label-card .lc-loc { font-size: 0.75rem; color: #555; margin-bottom: 0.4rem; }
-    .label-card .lc-count { font-size: 0.85rem; font-weight: 700; color: #111; }
-    .label-card .lc-date { font-size: 0.7rem; color: #888; margin-top: 0.4rem; }
 
-    .pricing-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .pricing-card {
-      max-width: 480px;
-      margin: 0 auto;
-      background: var(--bg);
-      border: 1px solid var(--accent);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      text-align: center;
+    /* Screens showcase */
+    .screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; align-items: start; }
+    .screen figure { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .phone {
+      border: 1px solid var(--border); border-radius: 30px; overflow: hidden;
+      background: #fff; box-shadow: 0 24px 60px rgba(0,0,0,0.45); max-width: 260px;
     }
-    .pricing-card .price-badge {
-      display: inline-block;
-      background: rgba(0,212,170,0.12);
-      border: 1px solid rgba(0,212,170,0.3);
-      color: var(--accent2);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      margin-bottom: 1.25rem;
-    }
-    .pricing-card .price { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 0.25rem; }
-    .pricing-card .price-note { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
-    .pricing-features { list-style: none; text-align: left; margin-bottom: 2rem; }
-    .pricing-features li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .pricing-features li:last-child { border-bottom: none; }
-    .pricing-features li::before { content: "v"; color: var(--accent2); font-weight: 700; flex-shrink: 0; }
+    .screen figcaption { color: var(--muted); font-size: 0.95rem; text-align: center; max-width: 30ch; }
+    .screen figcaption b { color: var(--fg); font-weight: 700; }
 
-    .cta-section {
-      background: linear-gradient(135deg, rgba(108,99,255,0.12) 0%, rgba(0,212,170,0.08) 100%);
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .cta-inner { max-width: 640px; margin: 0 auto; }
-    .cta-inner h2 { margin-bottom: 1rem; }
-    .cta-inner p { color: var(--muted); margin-bottom: 2rem; }
+    /* Feature split */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .feature { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; }
+    .feature .ic { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .feature h3 { font-size: 1.08rem; font-weight: 750; margin-bottom: 0.4rem; }
+    .feature p { color: var(--muted); font-size: 0.96rem; }
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
+    /* Private callout */
+    .private { background: linear-gradient(160deg, var(--bg2), var(--bg)); border-top: 1px solid var(--border); }
+    .private .wrap { display: grid; gap: 1.5rem; place-items: center; text-align: center; }
+    .private .lock { font-size: 2.2rem; }
+    .private ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.5rem; }
+    .private li { font-family: var(--mono); font-size: 0.82rem; color: #cdd8ea; border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 0.9rem; }
+
+    /* CTA */
+    .cta { background: var(--amber); color: #1a1204; text-align: center; }
+    .cta h2 { color: #1a1204; }
+    .cta p { color: #4a3712; font-size: 1.1rem; margin: 1rem auto 2rem; max-width: 46ch; }
+    .cta .btn { background: #12192b; color: #fff; }
+    .cta .btn:hover { filter: brightness(1.15); }
+    .cta .small { font-family: var(--mono); font-size: 0.78rem; color: #5c4718; margin-top: 1.1rem; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); color: var(--muted); text-align: center; padding: 2.5rem 1.5rem; }
+    footer .links { margin-bottom: 0.7rem; }
+    footer .links a { color: var(--muted); margin: 0 0.6rem; font-size: 0.9rem; }
+    footer .links a:hover { color: var(--fg); }
+    footer .small { font-size: 0.82rem; }
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Store<span>Box</span></a>
-  <a href="#" class="cta-nav">Get Started</a>
+  <a href="index.html" class="nav-logo">Store<span>Box</span></a>
+  <div class="nav-links">
+    <a href="#how" class="plain">How it works</a>
+    <a href="support.html" class="plain">Support</a>
+    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn">Get the beta</a>
+  </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-badge">Now in Beta</div>
-  <h1>Finally know<br><span class="highlight">what's in every box.</span></h1>
-  <p>StoreBox turns your tubs, shelves, and storage units into a searchable inventory — powered by AI photo scanning and QR labels.</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-primary">Get Started</a>
-    <a href="#features" class="btn-secondary">See How It Works</a>
-  </div>
-</section>
-
-<div class="problem-strip">
-  <p><strong>"I know I have this somewhere..."</strong> — StoreBox fixes the 30-tub garage problem. Snap a photo, let AI catalog what's inside, print a QR label, and search everything from your phone in seconds.</p>
-</div>
-
-<section id="features">
-  <div class="section-label">Features</div>
-  <h2>Everything in its place</h2>
-  <p class="section-sub">Built for garages, workshops, storage units, and anywhere things get lost.</p>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Blitz Cataloging</h3>
-      <p>Catalog 15 containers in 30 minutes. Snap a photo, AI identifies the items, confirm and move on. No typing required.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🤖</div>
-      <h3>AI Photo Scanning</h3>
-      <p>Claude AI reads your photos and generates an item checklist. Uncheck what's wrong, confirm what's right. Done.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔍</div>
-      <h3>Full-Text Search</h3>
-      <p>Search by item name, container name, category, or location. Find the power drill before you start looking in boxes.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🏷️</div>
-      <h3>QR Label Printing</h3>
-      <p>Print-ready labels with QR code, container ID, location breadcrumb, and item count. Stick it, scan it, done.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📦</div>
-      <h3>Storage Hierarchy</h3>
-      <p>Organize by Location, Room, Container, and Zone. Map your actual space — garage west wall, attic bay 3, spare bedroom closet.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">☁️</div>
-      <h3>Access Anywhere</h3>
-      <p>Your inventory is always with you. Check what's in storage from your phone before you make a trip or a purchase.</p>
-    </div>
-  </div>
-</section>
-
-<section class="blitz-section">
-  <div class="blitz-inner" style="padding: 5rem 2rem;">
-    <div>
-      <div class="section-label">Blitz Mode</div>
-      <h2>30 boxes in 60 minutes</h2>
-      <p class="section-sub">Designed for the "I just moved and nothing is labeled" problem.</p>
-      <ol class="blitz-steps">
-        <li><span>Open <strong>Blitz Mode</strong> (lightning button), select your storage location</span></li>
-        <li><span>Tap <strong>Snap Photo</strong> — point at the open box</span></li>
-        <li><span><strong>Analyze Photo</strong> — AI returns an item checklist instantly</span></li>
-        <li><span>Uncheck anything wrong, tap <strong>Confirm and Next</strong></span></li>
-        <li><span>Next container auto-created. Repeat until done.</span></li>
-        <li><span>Session summary: containers cataloged + total items added</span></li>
-      </ol>
-    </div>
-    <div class="blitz-visual">
-      <div><span class="comment">// Blitz session complete</span></div>
-      <div>&nbsp;</div>
-      <div><span class="kw">Session</span> <span class="val">#SB-2024-11-04</span></div>
-      <div>Location: <span class="val">Garage / West Wall</span></div>
-      <div>&nbsp;</div>
-      <div><span class="kw">Containers cataloged:</span> <span class="val">15</span></div>
-      <div><span class="kw">Items added:</span>         <span class="val">73</span></div>
-      <div><span class="kw">AI scans:</span>            <span class="val">15 / 15 ok</span></div>
-      <div><span class="kw">Labels ready:</span>        <span class="val">15 ok</span></div>
-      <div>&nbsp;</div>
-      <div><span class="comment">// Duration: 28 minutes</span></div>
-      <div><span class="comment">// All containers now searchable</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="use-cases">
-  <div class="section-label">Use Cases</div>
-  <h2>Built for real spaces</h2>
-  <p class="section-sub">Wherever you store things, StoreBox brings order to it.</p>
-  <div class="usecases-grid">
-    <div class="usecase-card">
-      <div class="uc-icon">🔧</div>
-      <h3>Garage and Workshop</h3>
-      <p>Hardware, tools, spare parts. QR labels on every bin. Search "3/8 bolt" instead of opening 12 drawers.</p>
-    </div>
-    <div class="usecase-card">
-      <div class="uc-icon">📦</div>
-      <h3>Storage Unit</h3>
-      <p>Seasonal items, furniture, boxes from three moves ago. Know what's there without making a trip.</p>
-    </div>
-    <div class="usecase-card">
-      <div class="uc-icon">🏠</div>
-      <h3>Home Inventory</h3>
-      <p>Attic, basement, spare bedroom. Every tub cataloged. Photo evidence for insurance. Everything findable.</p>
-    </div>
-    <div class="usecase-card">
-      <div class="uc-icon">🏪</div>
-      <h3>Small Business</h3>
-      <p>Parts room, supply closet, back stock. Search your inventory in seconds instead of walking the shelves.</p>
-    </div>
-    <div class="usecase-card">
-      <div class="uc-icon">🎨</div>
-      <h3>Makers and Crafters</h3>
-      <p>Filament rolls, fabric, electronics components. Stop buying duplicates. Know what you have before ordering more.</p>
-    </div>
-    <div class="usecase-card">
-      <div class="uc-icon">🚗</div>
-      <h3>Auto and Off-Road</h3>
-      <p>Parts bins, recovery gear, seasonal gear. Categorize by vehicle. Find the trail kit before Friday night.</p>
-    </div>
-  </div>
-</section>
-
-<section class="label-section">
-  <div class="label-inner" style="padding: 5rem 2rem; max-width: 1000px; margin: 0 auto;">
-    <div>
-      <div class="section-label">Label Printing</div>
-      <h2>Labels that<br>actually work</h2>
-      <p class="section-sub" style="margin-left:0;text-align:left;">Every container gets a print-ready label — QR code, ID, location, item count. Print to PDF or download PNG. Works with standard label printers.</p>
-      <br/>
-      <p style="color:var(--muted);font-size:0.9rem;">Scan the QR code to go straight to the container's item list. No app install required.</p>
-    </div>
-    <div class="label-card">
-      <div class="lc-id">SB-0024</div>
-      <div class="lc-qr"></div>
-      <div class="lc-loc">Garage / West Wall / Bin 3</div>
-      <div class="lc-count">🔧 Hardware · 12 items</div>
-      <div class="lc-date">Updated 2026-05-08</div>
-    </div>
-  </div>
-</section>
-
-<section class="pricing-section">
-  <div style="max-width: 1100px; margin: 0 auto; padding: 5rem 2rem;">
-    <div class="section-label">Pricing</div>
-    <h2>Simple pricing</h2>
-    <p class="section-sub">Free during beta. Paid plans coming soon.</p>
-    <div class="pricing-card">
-      <div class="price-badge">Beta Access</div>
-      <div class="price">Free</div>
-      <div class="price-note">Free during beta — paid plans coming soon</div>
-      <ul class="pricing-features">
-        <li>Unlimited containers</li>
-        <li>AI photo scanning</li>
-        <li>Full-text search</li>
-        <li>QR label printing</li>
-        <li>Blitz cataloging mode</li>
-        <li>Access from any device</li>
-      </ul>
-      <a href="#" class="btn-primary" style="width:100%;justify-content:center;">Get Started</a>
-    </div>
-  </div>
-</section>
-
-<section class="cta-section">
-  <div class="cta-inner" style="padding: 5rem 2rem;">
-    <h2>Start knowing what you own.</h2>
-    <p>Catalog your first container in minutes.</p>
+<!-- HERO -->
+<header class="hero">
+  <img class="hero-img" src="assets/hero-garage-rack.jpeg" alt="A garage rack filled with rows of identical black 27-gallon totes, each with a QR label" />
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <span class="eyebrow">For the rack builders</span>
+    <h1>You built the rack.<br />Now know <span class="hl">every tote.</span></h1>
+    <p class="sub">You spent the weekend building shelving for a wall of 27-gallon totes. They look great — and completely identical. StoreBox catalogs what's inside each one, so you find anything without pulling a single bin down.</p>
     <div class="hero-actions">
-      <a href="#" class="btn-primary">Get Started</a>
+      <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn big">Get the beta</a>
+      <a href="#how" class="btn ghost big">See how it works</a>
     </div>
+    <p class="hero-note">iPhone &amp; iPad · Private, on-device · No account</p>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="wrap">
+    <p class="big-q">Fifteen black bins on the shelf. <b>Which one has the Christmas lights?</b></p>
+    <p>If you're the kind of person who buys totes by the six-pack and builds a 2×4 rack to hold them, you already know the catch: opaque bins you can't see into, stacked high and heavy, so finding one thing means pulling down and opening five. StoreBox is built for exactly that wall.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap center">
+    <span class="eyebrow">How it works</span>
+    <h2>Catalog once. Never dig again.</h2>
+    <p class="lead">Three steps, then your whole rack is searchable from your pocket.</p>
+  </div>
+  <div class="wrap steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Label every tote</h3>
+      <p>Each bin gets a code like <span class="chip">G-001</span> and a QR label you print and stick on the front. Scan it later to see inside — before you pull it down.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>Fill it fast with Blitz</h3>
+      <p>Blitz mode walks you down the rack, logging one tote after another. Snap, list what's inside, next bin. A whole wall in one sitting.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Find anything in seconds</h3>
+      <p>Search every bin at once — "extension cords" — and StoreBox tells you the exact tote and which shelf it's on. Done.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="wrap center">
+    <span class="eyebrow">On your phone</span>
+    <h2>Your whole rack, in your pocket</h2>
+  </div>
+  <div class="wrap screens">
+    <div class="screen"><figure>
+      <img class="phone" src="assets/screens/home.png" alt="StoreBox home screen listing labeled containers" />
+      <figcaption><b>Every tote, numbered.</b> Each bin is a tap away, with a count of what's inside.</figcaption>
+    </figure></div>
+    <div class="screen"><figure>
+      <img class="phone" src="assets/screens/label.png" alt="A printable QR label for a container" />
+      <figcaption><b>Print a QR label.</b> Sized for a Brother label printer — scan it to jump straight to the tote.</figcaption>
+    </figure></div>
+    <div class="screen"><figure>
+      <img class="phone" src="assets/screens/search.png" alt="Searching items and finding which container holds them" />
+      <figcaption><b>Search, don't dig.</b> Type what you're after; StoreBox names the tote that has it.</figcaption>
+    </figure></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="wrap center">
+    <span class="eyebrow">Built for the way you built it</span>
+    <h2>Made for racks, shelves &amp; totes</h2>
+  </div>
+  <div class="wrap features">
+    <div class="feature"><div class="ic">🧱</div><h3>Rack &amp; shelf aware</h3><p>Organize by location and shelf, so a bin's spot on the wall is part of its record.</p></div>
+    <div class="feature"><div class="ic">🏷️</div><h3>QR labels that print</h3><p>Generate a clean label per tote, tuned for a Brother QL label printer. Stick it, scan it.</p></div>
+    <div class="feature"><div class="ic">⚡</div><h3>Blitz cataloging</h3><p>Log bin after bin in a row instead of one tedious form at a time.</p></div>
+    <div class="feature"><div class="ic">🔒</div><h3>Private &amp; offline</h3><p>Your inventory lives on your device. No account, no cloud, no sign-up.</p></div>
+  </div>
+</section>
+
+<!-- PRIVATE -->
+<section class="private">
+  <div class="wrap">
+    <div class="lock">🔒</div>
+    <span class="eyebrow">Yours, and only yours</span>
+    <h2>No account. No cloud. No catch.</h2>
+    <p class="lead">StoreBox keeps everything in a database on your phone or tablet. We never get a copy of your inventory, and there's nothing to sign up for.</p>
+    <ul>
+      <li>On-device storage</li>
+      <li>No sign-up</li>
+      <li>No tracking</li>
+      <li>No ads</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Stop guessing which tote.</h2>
+    <p>Get on the beta and turn your wall of identical bins into a searchable inventory.</p>
+    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn big">Get the beta</a>
+    <p class="small">Coming to the App Store · iPhone &amp; iPad</p>
   </div>
 </section>
 
 <footer>
-  <p style="margin-bottom:0.6rem;">
-    <a href="privacy.html" style="color:var(--muted);margin:0 0.5rem;">Privacy</a>&middot;
-    <a href="terms.html" style="color:var(--muted);margin:0 0.5rem;">Terms</a>&middot;
-    <a href="support.html" style="color:var(--muted);margin:0 0.5rem;">Support</a>
-  </p>
-  <p>&copy; 2026 StoreBox. Built by Hex.</p>
+  <div class="links">
+    <a href="privacy.html">Privacy</a>·
+    <a href="terms.html">Terms</a>·
+    <a href="support.html">Support</a>
+  </div>
+  <p class="small">© 2026 StoreBox · Built by Hex</p>
 </footer>
 
 </body>
