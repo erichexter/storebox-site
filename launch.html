@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<title>StoreBox — Launch Checklist</title>
+<style>
+  :root {
+    --bg: #0b1018; --panel: #121a29; --panel2: #0f1622; --line: rgba(255,255,255,0.09);
+    --fg: #eef2f8; --muted: #93a4bd; --amber: #f6a01a; --amber-soft: rgba(246,160,26,0.14);
+    --done: #40c463; --done-soft: rgba(64,196,99,0.12);
+    --chipW: #1e5fb4; --chipH: #b4671e;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f4f6fa; --panel:#ffffff; --panel2:#eef1f6; --line:rgba(10,20,40,0.10);
+            --fg:#131a26; --muted:#5b6b82; --amber-soft:rgba(246,160,26,0.16); --done-soft:rgba(45,164,78,0.12); --done:#2da44e; }
+  }
+  :root[data-theme="dark"] { --bg:#0b1018; --panel:#121a29; --panel2:#0f1622; --line:rgba(255,255,255,0.09);
+    --fg:#eef2f8; --muted:#93a4bd; --amber-soft:rgba(246,160,26,0.14); --done-soft:rgba(64,196,99,0.12); --done:#40c463; }
+  :root[data-theme="light"] { --bg:#f4f6fa; --panel:#ffffff; --panel2:#eef1f6; --line:rgba(10,20,40,0.10);
+    --fg:#131a26; --muted:#5b6b82; --amber-soft:rgba(246,160,26,0.16); --done-soft:rgba(45,164,78,0.12); --done:#2da44e; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); line-height: 1.5; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
+
+  header.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.1rem); font-weight: 850; letter-spacing: -0.8px; margin: 0; }
+  h1 .b { color: var(--amber); }
+  .sub { color: var(--muted); font-size: 0.9rem; margin: 0.2rem 0 1.2rem; }
+
+  .progress-card { position: sticky; top: 0; z-index: 5; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 0.9rem 1.1rem; margin-bottom: 1.6rem; backdrop-filter: blur(8px); }
+  .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.55rem; }
+  .progress-top .pct { font-weight: 800; font-size: 1.15rem; }
+  .progress-top .count { color: var(--muted); font-size: 0.85rem; font-family: var(--mono); }
+  .bar { height: 9px; background: var(--panel2); border-radius: 99px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amber), var(--done)); transition: width 0.35s ease; }
+
+  section { margin-bottom: 1.5rem; }
+  .phase { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.6rem; }
+  .phase .num { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--amber);
+    background: var(--amber-soft); border-radius: 6px; padding: 0.15rem 0.5rem; letter-spacing: 0.04em; white-space: nowrap; }
+  .phase h2 { font-size: 1.05rem; font-weight: 750; margin: 0; letter-spacing: -0.2px; }
+  .phase .pcount { margin-left: auto; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+
+  ul.items { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); }
+  li.item { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.7rem 0.9rem; border-top: 1px solid var(--line); cursor: pointer; transition: background 0.12s; }
+  li.item:first-child { border-top: none; }
+  li.item:hover { background: var(--panel2); }
+  .box { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; border: 2px solid var(--muted); border-radius: 6px;
+    display: grid; place-items: center; transition: all 0.15s; }
+  .box svg { width: 13px; height: 13px; opacity: 0; transform: scale(0.5); transition: all 0.15s; }
+  li.done .box { background: var(--done); border-color: var(--done); }
+  li.done .box svg { opacity: 1; transform: scale(1); stroke: #fff; }
+  .txt { flex: 1; }
+  li.done .txt .label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--muted); }
+  .label { font-size: 0.95rem; }
+  .label b { color: var(--amber); font-weight: 700; }
+  .owner { font-family: var(--mono); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.05em; padding: 0.12rem 0.42rem;
+    border-radius: 5px; margin-left: 0.5rem; vertical-align: middle; white-space: nowrap; }
+  .owner.W { background: rgba(30,95,180,0.22); color: #7fb4ff; }
+  .owner.H { background: rgba(180,103,30,0.22); color: #ffbd73; }
+  :root[data-theme="light"] .owner.W, @media (prefers-color-scheme: light){ .owner.W { color:#1e5fb4; } }
+
+  .crit { background: var(--amber-soft); border: 1px solid var(--amber); border-radius: 12px; padding: 0.9rem 1.1rem; margin-top: 1.8rem; }
+  .crit h3 { margin: 0 0 0.35rem; font-size: 0.95rem; }
+  .crit p { margin: 0.2rem 0; font-size: 0.9rem; color: var(--fg); }
+  .foot { color: var(--muted); font-size: 0.75rem; margin-top: 2rem; text-align: center; font-family: var(--mono); }
+  .reset { background: none; border: 1px solid var(--line); color: var(--muted); font-size: 0.72rem; border-radius: 7px; padding: 0.3rem 0.6rem; cursor: pointer; font-family: var(--mono); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Store<span class="b">Box</span> — Launch Checklist</h1>
+      <p class="sub">Single source of truth · tick items off (saved in this browser) · <span class="owner W">W</span> Wolf · <span class="owner H">H</span> Hex</p>
+    </div>
+    <button class="reset" id="reset">reset</button>
+  </header>
+
+  <div class="progress-card">
+    <div class="progress-top"><span class="pct" id="pct">0%</span><span class="count" id="count"></span></div>
+    <div class="bar"><i id="fill"></i></div>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="crit">
+    <h3>🔑 Critical path → live free app</h3>
+    <p>Phase 2 (your Apple clicks — every answer pre-written) → I do Phase 3 (App Store link on the site).</p>
+    <h3 style="margin-top:.7rem;">🔑 Critical path → revenue</h3>
+    <p>Phase 5: Paid Apps agreement + RevenueCat key + ASC products → I flip the flag + ship build 22.</p>
+  </div>
+
+  <p class="foot" id="stamp"></p>
+</div>
+
+<script>
+  const DATA = [
+    { n: "Phase 0", title: "Engineering & infrastructure", items: [
+      ["p0-bugs", "P0 save bug fixed + full bug bash", "W", true],
+      ["p0-fixes", "Category removed; search/room/Places fixes", "W", true],
+      ["p0-b21", "Build 21 VALID in TestFlight (free v1 + Sentry)", "W", true],
+      ["p0-scan", "AI scan backend live on Cloudflare Worker (funnel retired)", "W", true],
+      ["p0-sentry", "Sentry crash monitoring (both apps) + GitHub + source maps", "W", true],
+      ["p0-iap", "Monetization code complete on feat/iap (behind flag)", "W", true],
+    ]},
+    { n: "Phase 1", title: "Marketing site", items: [
+      ["p1-domain", "Domain getstorebox.app registered", "H", true],
+      ["p1-dns", "DNS → GitHub Pages, HTTPS enforced", "W", true],
+      ["p1-land", "Landing page + autoplaying demo video + screenshots", "W", true],
+      ["p1-kit", "Creator kit (Founding-100 offer, talking points, tracked links)", "W", true],
+      ["p1-og", "OG share card + favicon", "W", true],
+      ["p1-legal", "Privacy / Terms / Support on the branded domain", "W", true],
+      ["p1-analytics", "Cloudflare Web Analytics — Hex adds site → sends tag → W wires beacon", "H", false],
+      ["p1-badge", "(post-approval) Add 'Download on the App Store' badge to site", "W", false],
+    ]},
+    { n: "Phase 2", title: "App Store submission (FREE v1)", items: [
+      ["p2-shots", "Approve/upload the 5 screenshots (1290×2796)", "H", false],
+      ["p2-copy", "Push listing text via API (say 'push copy') → you review", "W", false],
+      ["p2-urls", "Paste Privacy + Support URLs (getstorebox.app)", "H", false],
+      ["p2-privacy", "App Privacy → Photos / App Functionality, not linked, no tracking", "H", false],
+      ["p2-age", "Age Rating → all None → 4+", "H", false],
+      ["p2-price", "Pricing → Free, all countries", "H", false],
+      ["p2-rights", "Content Rights → no third-party content", "H", false],
+      ["p2-submit", "Attach build 21 + Submit for Review", "H", false],
+    ]},
+    { n: "Phase 3", title: "Launch day (once approved)", items: [
+      ["p3-release", "Release the app (or auto-release)", "H", false],
+      ["p3-url", "Grab App Store URL → Download badge on site + creator kit", "W", false],
+      ["p3-refs", "Swap TestFlight → App Store references + CTA", "W", false],
+      ["p3-sanity", "Install from App Store, first-run + scan works", "W", false],
+    ]},
+    { n: "Phase 4", title: "Creator / influencer campaign", items: [
+      ["p4-dms", "Draft top-5 outreach DMs with tracked links", "W", false],
+      ["p4-send", "Send DMs / line up creators", "H", false],
+      ["p4-codes", "Founding-100 promo codes (needs Phase 5 IAP live)", "H", false],
+      ["p4-links", "Give each creator their tracked link + codes", "W", false],
+      ["p4-watch", "Watch per-creator analytics; report what converts", "W", false],
+    ]},
+    { n: "Phase 5", title: "Paid fast-follow (v1.1 IAP)", items: [
+      ["p5-agree", "Sign Paid Apps Agreement + tax/banking; enroll SBP (15%)", "H", false],
+      ["p5-rc", "RevenueCat account → entitlement 'ai_scan' → send public key", "H", false],
+      ["p5-prods", "ASC products: Basic $2.99/$19.99 + Pro $9.99/$49.99 (400 scans)", "H", false],
+      ["p5-flip", "Set flag + RevenueCat key, merge feat/iap, ship build 22", "W", false],
+      ["p5-founder", "Founder entitlement bypasses 400 cap (real unlimited, 3mo)", "W", false],
+      ["p5-kv", "KV permission on CF token → activate server quota", "H", false],
+    ]},
+    { n: "Phase 6", title: "Ongoing", items: [
+      ["p6-autofix", "Sentry code-mapping → Seer autofix PRs", "W", false],
+      ["p6-dash", "Watch crash/error dashboards; fix + ship", "W", false],
+      ["p6-support", "Support inbox monitored", "H", false],
+      ["p6-wolf", "Wolf Voice: same submission path when ready", "W", false],
+    ]},
+  ];
+
+  const KEY = "storebox-launch-v1";
+  const saved = JSON.parse(localStorage.getItem(KEY) || "{}");
+  const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  const list = document.getElementById("list");
+  const state = {};
+  DATA.forEach(ph => {
+    ph.items.forEach(([id,,, def]) => { state[id] = (id in saved) ? saved[id] : def; });
+    const sec = document.createElement("section");
+    const head = document.createElement("div"); head.className = "phase";
+    head.innerHTML = `<span class="num">${ph.n}</span><h2>${ph.title}</h2><span class="pcount" data-ph="${ph.n}"></span>`;
+    const ul = document.createElement("ul"); ul.className = "items";
+    ph.items.forEach(([id, text, owner]) => {
+      const li = document.createElement("li"); li.className = "item"; li.dataset.id = id;
+      li.innerHTML = `<span class="box">${CHECK}</span><span class="txt"><span class="label">${text}</span><span class="owner ${owner}">${owner}</span></span>`;
+      li.addEventListener("click", () => { state[id] = !state[id]; persist(); render(); });
+      ul.appendChild(li);
+    });
+    sec.appendChild(head); sec.appendChild(ul); list.appendChild(sec);
+  });
+
+  function persist(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+  function render(){
+    let done = 0, total = 0;
+    DATA.forEach(ph => {
+      let pd = 0;
+      ph.items.forEach(([id]) => { total++; if (state[id]) { done++; pd++; } });
+      document.querySelector(`[data-ph="${ph.n}"]`).textContent = `${pd}/${ph.items.length}`;
+    });
+    document.querySelectorAll("li.item").forEach(li => li.classList.toggle("done", !!state[li.dataset.id]));
+    const pct = Math.round(done/total*100);
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("count").textContent = `${done} / ${total} done`;
+    document.getElementById("fill").style.width = pct + "%";
+  }
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!confirm("Reset all checkboxes to their default state?")) return;
+    DATA.forEach(ph => ph.items.forEach(([id,,, def]) => state[id] = def));
+    persist(); render();
+  });
+  document.getElementById("stamp").textContent = "Generated 2026-07-27 · getstorebox.app";
+  render();
+</script>
+
+</body>
+</html>
