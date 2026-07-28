@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreBox — Privacy Policy</title>
-  <meta name="description" content="StoreBox privacy policy. Your inventory is stored on your device. No account, no tracking, no analytics." />
+  <meta name="description" content="StoreBox privacy policy. Your inventory stays on your device. No account, and the app includes no ads or tracking SDKs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getstorebox.app/privacy.html" />
+  <meta property="og:title" content="StoreBox — Privacy Policy" />
+  <meta property="og:description" content="Your inventory stays on your device. No account; the app has no ads or tracking SDKs." />
+  <meta property="og:image" content="https://getstorebox.app/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://getstorebox.app/assets/og.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -46,9 +53,10 @@
 
   <div class="callout">
     <p><strong>The short version:</strong> StoreBox stores your inventory in a database on your own
-    device. There is no account, we do not have a copy of your data, and we do not track you, show
-    ads, or use analytics. The only time anything leaves your device is when <em>you</em> choose to
-    use the optional AI photo-scan feature.</p>
+    device. There is no account, we do not have a copy of your data, and the app shows no ads and
+    includes no tracking or analytics SDKs. The only time anything leaves your device is when
+    <em>you</em> choose to use the optional AI photo-scan feature. (This website uses privacy-first
+    Cloudflare Web Analytics &mdash; see &ldquo;About this website&rdquo; below.)</p>
   </div>
 
   <h2>Who this applies to</h2>
@@ -69,15 +77,18 @@
 
   <h2>Optional AI photo scan</h2>
   <p>StoreBox includes an optional feature that can look at a photo of a container and suggest the
-  items inside it. If &mdash; and only if &mdash; you use this feature, the selected image is sent to
-  the AI scan service configured in the app so it can be analyzed, and the suggested items are
-  returned to your device. Images are transmitted for the purpose of generating that result. If you
-  never use the AI scan feature, no images or inventory data are transmitted off your device.</p>
+  items inside it. If &mdash; and only if &mdash; you tap to use it, the single image you choose is
+  sent over an encrypted connection to <strong>StoreBox&rsquo;s scan service</strong> (hosted on
+  Cloudflare) and passed to a <strong>third-party AI provider (Anthropic)</strong>, which identifies
+  the items and returns the list to your device. The image is used <strong>only</strong> to generate
+  that result &mdash; it is not used to train any AI model, is not used for advertising, and our scan
+  service does not store it (it is discarded once the items are returned). If you never use the AI
+  scan feature, no images or inventory data ever leave your device.</p>
 
   <h2>What we do <em>not</em> do</h2>
   <ul>
     <li>We do not require you to create an account or provide your name, email, or phone number to use the app.</li>
-    <li>We do not include third-party advertising, analytics, or tracking SDKs.</li>
+    <li>The StoreBox app includes no third-party advertising, analytics, or tracking SDKs.</li>
     <li>We do not sell, rent, or share your personal data.</li>
     <li>We do not build advertising profiles or track you across other apps or websites.</li>
   </ul>
@@ -90,6 +101,12 @@
   <p>Because your data lives on your device, you are always in control: you can edit or delete any
   container, item, or photo at any time, and uninstalling the app removes its data from your
   device.</p>
+
+  <h2>About this website</h2>
+  <p>This policy covers the StoreBox app. The StoreBox website (getstorebox.app) uses
+  <strong>Cloudflare Web Analytics</strong> to count visits &mdash; it is cookieless, does not
+  fingerprint you, and does not track you across other sites or build a profile. It applies to the
+  website only, never to the app or your inventory.</p>
 
   <h2>Changes to this policy</h2>
   <p>If we make material changes to this policy, we will update the date above and post the revised

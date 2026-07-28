@@ -62,6 +62,12 @@
     .btn.big { padding: 0.95rem 1.9rem; font-size: 1.05rem; }
     .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); }
     .btn.ghost:hover { border-color: var(--muted); filter: none; }
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 0.55rem; }
+      .nav-links a.plain { display: none; }   /* keep the CTA visible; text links collapse on small phones */
+      .nav-logo { font-size: 1.05rem; }
+    }
 
     .eyebrow {
       font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.16em;
@@ -168,7 +174,7 @@
     <a href="#how" class="plain">How it works</a>
     <a href="creators.html" class="plain">Creators</a>
     <a href="support.html" class="plain">Support</a>
-    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn">Get the beta</a>
+    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20waitlist" class="btn">Join the waitlist</a>
   </div>
 </nav>
 
@@ -181,7 +187,7 @@
     <h1>You built the rack.<br />Now know <span class="hl">every tote.</span></h1>
     <p class="sub">You spent the weekend building shelving for a wall of 27-gallon totes. They look great — and completely identical. Snap a photo of each bin and StoreBox's AI lists what's inside, so you find anything without pulling a single tote down.</p>
     <div class="hero-actions">
-      <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn big">Get the beta</a>
+      <a href="mailto:eric@hexgarage.com?subject=StoreBox%20waitlist" class="btn big">Join the waitlist</a>
       <a href="#how" class="btn ghost big">See how it works</a>
     </div>
     <p class="hero-note">iPhone &amp; iPad · Private, on-device · No account</p>
@@ -199,11 +205,11 @@
 </style>
 <section class="demo-section">
   <div class="wrap">
-    <span class="eyebrow">See it in 20 seconds</span>
+    <span class="eyebrow">See it in seconds</span>
     <h2>A wall of mystery bins, searchable in a tap.</h2>
     <div class="demo-phone">
       <video src="assets/demo.mp4" poster="assets/demo-poster.jpg"
-             autoplay muted loop playsinline preload="metadata"></video>
+             autoplay muted loop controls playsinline preload="metadata"></video>
     </div>
   </div>
 </section>
@@ -237,7 +243,7 @@
     <div class="step">
       <div class="num">3</div>
       <h3>Find anything in seconds</h3>
-      <p>Search every bin at once — "extension cords" — and StoreBox tells you the exact tote and which shelf it's on. Done.</p>
+      <p>Search every bin at once — "extension cords" — and StoreBox tells you the exact tote and where it's stored. Done.</p>
     </div>
   </div>
 </section>
@@ -261,7 +267,7 @@
 <section class="ai-section">
   <div class="wrap ai-grid">
     <div class="ai-copy">
-      <span class="eyebrow">The magic part</span>
+      <span class="eyebrow">The part that saves the weekend</span>
       <h2>Point your camera.<br />Let AI do the inventory.</h2>
       <p>Cataloging a whole rack sounds like a lost weekend. It isn't. In <b>Blitz mode</b>, you photograph the inside of a tote and StoreBox's AI reads the picture and lists what's in it — so you're not typing item by item.</p>
       <div class="ai-steps">
@@ -290,7 +296,7 @@
     </figure></div>
     <div class="screen"><figure>
       <img class="phone" src="assets/screens/label.png" alt="A printable QR label for a container" />
-      <figcaption><b>Print a QR label.</b> Sized for a Brother label printer — scan it to jump straight to the tote.</figcaption>
+      <figcaption><b>Print a QR label.</b> Print on any printer — sized to look sharp on a Brother QL. Scan it to jump straight to the tote.</figcaption>
     </figure></div>
     <div class="screen"><figure>
       <img class="phone" src="assets/screens/search.png" alt="Searching items and finding which container holds them" />
@@ -311,9 +317,9 @@
   </div>
   <div class="wrap features">
     <div class="feature"><div class="ic">🧱</div><h3>Rack &amp; shelf aware</h3><p>Organize by location and shelf, so a bin's spot on the wall is part of its record.</p></div>
-    <div class="feature"><div class="ic">🏷️</div><h3>QR labels that print</h3><p>Generate a clean label per tote, tuned for a Brother QL label printer. Stick it, scan it.</p></div>
+    <div class="feature"><div class="ic">🏷️</div><h3>QR labels that print</h3><p>Generate a clean label per tote — print on any printer or sticker sheet, sized to look sharp on a Brother QL. Stick it, scan it.</p></div>
     <div class="feature"><div class="ic">⚡</div><h3>Blitz cataloging</h3><p>Log bin after bin in a row instead of one tedious form at a time.</p></div>
-    <div class="feature"><div class="ic">🔒</div><h3>Private by default</h3><p>Your inventory lives on your device — no account, no sign-up. Only the optional AI scan sends a photo out.</p></div>
+    <div class="feature"><div class="ic">🔒</div><h3>Stays on your phone</h3><p>Your inventory lives on your device — no account, no sign-up. Only the optional AI scan sends a photo out.</p></div>
   </div>
 </section>
 
@@ -321,13 +327,13 @@
 <section class="private">
   <div class="wrap">
     <div class="lock">🔒</div>
-    <span class="eyebrow">Yours, and only yours</span>
+    <span class="eyebrow">Nobody else gets a copy</span>
     <h2>No account. On your device.</h2>
     <p class="lead">StoreBox keeps your whole inventory in a database on your phone or tablet — we never get a copy, and there's nothing to sign up for. The one thing that ever leaves your phone is a photo you choose to send for the optional AI scan, just to identify the items in it.</p>
     <ul>
       <li>On-device inventory</li>
       <li>No sign-up</li>
-      <li>No tracking · no ads</li>
+      <li>No ads · no in-app tracking</li>
       <li>AI scan is optional</li>
     </ul>
   </div>
@@ -337,9 +343,9 @@
 <section class="cta">
   <div class="wrap">
     <h2>Stop guessing which tote.</h2>
-    <p>Get on the beta and turn your wall of identical bins into a searchable inventory.</p>
-    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20beta" class="btn big">Get the beta</a>
-    <p class="small">Coming to the App Store · iPhone &amp; iPad</p>
+    <p>Free to catalog by hand — private and on your device. The AI photo-scan is a paid add-on (from $2.99/mo). Join the waitlist and we'll email you the moment it opens.</p>
+    <a href="mailto:eric@hexgarage.com?subject=StoreBox%20waitlist" class="btn big">Join the waitlist</a>
+    <p class="small">Opens your email — just hit send · Coming to the App Store · iPhone &amp; iPad</p>
   </div>
 </section>
 
