@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use StoreBox — Step-by-step guide</title>
+  <meta name="description" content="Short, illustrated StoreBox tutorials: create a box, add items with an AI photo scan, print or share a QR label, search every bin, and scan a label to open a box." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://getstorebox.app/how-to.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getstorebox.app/how-to.html" />
+  <meta property="og:title" content="How to use StoreBox" />
+  <meta property="og:description" content="Five quick tutorials with real screenshots from the app." />
+  <meta property="og:image" content="https://getstorebox.app/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://getstorebox.app/assets/og.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0c111c; --surface: #131b2b; --surface2: #16203a;
+      --accent: #f6a01a; --accent2: #f6a01a; --text: #eef2f8;
+      --muted: #8ea0bd; --border: rgba(255,255,255,0.09); --radius: 12px;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(15,17,23,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+    .nav-links a.plain { color: var(--muted); font-size: 0.9rem; text-decoration: none; }
+    .nav-links a.plain:hover { color: var(--text); }
+    nav a.cta-nav { background: var(--accent); color: #1a1204; padding: 0.45rem 1.1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    nav a.cta-nav:hover { opacity: 0.85; }
+    main { max-width: 980px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 0.4rem; }
+    .lede { color: var(--muted); font-size: 1.05rem; margin-bottom: 1.75rem; max-width: 640px; }
+    h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 0.3rem; }
+    p, li { color: #d0d0dc; }
+    strong { color: var(--text); }
+    a { color: var(--accent2); }
+    .toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 2rem; list-style: none; }
+    .toc a { display: inline-block; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 0.9rem; color: var(--text); text-decoration: none; font-size: 0.9rem; }
+    .toc a:hover { border-color: var(--accent); }
+    .video-wrap { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 2rem; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; margin-bottom: 2.5rem; }
+    .video-wrap video { width: 100%; height: auto; aspect-ratio: 540 / 1174; border-radius: 22px; display: block; background: #000; }
+    .video-wrap p { margin-bottom: 0.6rem; }
+    .tut { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 1.6rem 1.5rem 1.4rem; margin-bottom: 1.75rem; scroll-margin-top: 80px; }
+    .tut > p.why { color: var(--muted); margin-bottom: 1.2rem; }
+    .steps { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.4rem; counter-reset: step; }
+    .steps li { counter-increment: step; display: flex; flex-direction: column; gap: 0.7rem; }
+    .steps li .txt { position: relative; padding-left: 2.3rem; min-height: 1.8rem; }
+    .steps li .txt::before { content: counter(step); position: absolute; left: 0; top: 0.1rem; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: #1a1204; font-weight: 800; font-size: 0.9rem; display: grid; place-items: center; }
+    .steps img { width: 100%; max-width: 260px; height: auto; border-radius: 20px; border: 1px solid var(--border); align-self: center; background: #fff; }
+    .tip { margin-top: 1.1rem; font-size: 0.95rem; color: var(--muted); }
+    .tip strong { color: var(--accent); }
+    .callout { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent2); border-radius: var(--radius); padding: 1.3rem 1.4rem; margin: 2.25rem 0 1rem; }
+    .callout h2 { font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .callout p { margin-bottom: 0.9rem; }
+    .btn { display: inline-block; background: var(--accent); color: #1a1204; padding: 0.6rem 1.2rem; border-radius: 9px; text-decoration: none; font-weight: 700; }
+    .btn:hover { opacity: 0.88; }
+    .credit { font-size: 0.8rem; color: var(--muted); margin-top: 2rem; }
+    footer { border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; text-align: center; padding: 2rem; }
+    footer a { color: var(--muted); margin: 0 0.5rem; }
+    footer a:hover { color: var(--text); }
+    footer .links { margin-bottom: 0.6rem; }
+    @media (max-width: 720px) {
+      nav { padding: 0 1rem; }
+      .nav-links a.plain { display: none; }
+      main { padding: 2rem 1rem 3rem; }
+      .video-wrap { grid-template-columns: 1fr; padding: 1.1rem; }
+      .video-wrap video { max-width: 280px; margin: 0 auto; }
+      .tut { padding: 1.3rem 1rem 1.1rem; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Store<span>Box</span></a>
+  <div class="nav-links">
+    <a href="index.html#how" class="plain">How it works</a>
+    <a href="support.html" class="plain">Support</a>
+    <a href="https://apps.apple.com/us/app/id6794448845" class="cta-nav">Get the app</a>
+  </div>
+</nav>
+
+<main>
+  <h1>How to use StoreBox</h1>
+  <p class="lede">Five short tutorials, each a few taps long. Every screenshot is from the real app on an iPhone.</p>
+
+  <ul class="toc">
+    <li><a href="#create">1. Create a box</a></li>
+    <li><a href="#scan">2. Add items with an AI photo scan</a></li>
+    <li><a href="#label">3. Print or share a QR label</a></li>
+    <li><a href="#search">4. Find anything with Search</a></li>
+    <li><a href="#open">5. Scan a label to open a box</a></li>
+  </ul>
+
+  <div class="video-wrap">
+    <video controls playsinline muted preload="none" poster="assets/how-to/video-poster.jpg" width="540" height="1174">
+      <source src="assets/how-to/how-to.mp4" type="video/mp4" />
+    </video>
+    <div>
+      <h2>Watch it in 40 seconds</h2>
+      <p>Create a box, take one photo, let AI list what is inside, make a QR label, then search every box for one thing.</p>
+      <p>Prefer to read? The steps are below.</p>
+    </div>
+  </div>
+
+  <section class="tut" id="create">
+    <h2>1. Create a box</h2>
+    <p class="why">A &ldquo;box&rdquo; is any container: a tote, a bin, a drawer or a shelf.</p>
+    <ol class="steps">
+      <li><div class="txt">On Home, tap the round <strong>+</strong> button at the bottom.</div>
+        <img src="assets/how-to/01-home.webp" alt="StoreBox Home screen with a list of containers and the + button" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Type a name. Pick a place and a room if you like (for example Garage &rsaquo; Workbench). The ID, like W-006, is filled in for you.</div>
+        <img src="assets/how-to/02-new-box.webp" alt="New Container form with name Hand Tools, location Garage and room Workbench" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Tap <strong>Create Container</strong>. Your new box opens, ready for items.</div>
+        <img src="assets/how-to/03-box-created.webp" alt="The new, empty Hand Tools container" width="600" height="1305" loading="lazy" /></li>
+    </ol>
+  </section>
+
+  <section class="tut" id="scan">
+    <h2>2. Add items with an AI photo scan</h2>
+    <p class="why">Open the box, take one photo, and StoreBox lists what it sees. You choose what to keep.</p>
+    <ol class="steps">
+      <li><div class="txt">In the box, tap <strong>Scan with AI</strong> and take a photo of the contents. Then tap <strong>Analyze 1 photo</strong>.</div>
+        <img src="assets/how-to/04-scan-photo.webp" alt="AI Photo Scan panel with a photo of hand tools and the Analyze button" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">In a few seconds you get a list of items with a confidence bar. Uncheck anything that is wrong.</div>
+        <img src="assets/how-to/05-scan-results.webp" alt="Scan results: 23 items found, such as spirit levels and an adjustable wrench" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Scroll to the end of the list and tap <strong>Add &hellip; Selected</strong>. The items are now in the box, each with its quantity.</div>
+        <img src="assets/how-to/07-items-added.webp" alt="The container item list after the scan" width="600" height="1305" loading="lazy" /></li>
+    </ol>
+    <p class="tip"><strong>Tip:</strong> No photo needed? Tap <strong>Add Item</strong> and type it in. Your first scans are free; after that the AI scan is a paid add-on. Typing items in is always free.</p>
+  </section>
+
+  <section class="tut" id="label">
+    <h2>3. Print or share a QR label</h2>
+    <p class="why">Stick a label on the outside so anyone can see what is inside without opening it.</p>
+    <ol class="steps">
+      <li><div class="txt">In the box, tap <strong>&middot;&middot;&middot;</strong> (top right), then <strong>QR Label</strong>.</div>
+        <img src="assets/how-to/08-actions.webp" alt="Container actions menu with Edit Container, QR Label and Delete Container" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">You see the label: ID, QR code, name, place and item count. Tap <strong>Share / Print Label</strong>.</div>
+        <img src="assets/how-to/09-qr-label.webp" alt="QR label for container W-006 Hand Tools" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Choose <strong>Print</strong>, <strong>Save Image</strong>, AirDrop or any app. The label is sized for 62&nbsp;mm label tape (Brother QL-820NWB) and also prints on paper.</div>
+        <img src="assets/how-to/10-share-sheet.webp" alt="iOS share sheet with the label PNG" width="600" height="1305" loading="lazy" /></li>
+    </ol>
+  </section>
+
+  <section class="tut" id="search">
+    <h2>4. Find anything with Search</h2>
+    <p class="why">Forgot which tote has the lights? Search looks in every box at once.</p>
+    <ol class="steps">
+      <li><div class="txt">Tap <strong>Search</strong> in the bottom bar (or use the search field on Home) and type a word, for example &ldquo;lights&rdquo;.</div>
+        <img src="assets/how-to/12a-search-typing.webp" alt="Typing lights into the StoreBox search field" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Results come from every box. Each one shows the box ID and where the box lives. Tap a result to open that box.</div>
+        <img src="assets/how-to/12-search.webp" alt="Search for lights shows three items across two containers" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Prefer to browse? The <strong>Places</strong> tab groups your boxes by building and room.</div>
+        <img src="assets/how-to/13-places.webp" alt="Places tab with Basement and Garage and their item counts" width="600" height="1305" loading="lazy" /></li>
+    </ol>
+    <p class="tip"><strong>Tip:</strong> Set up places and rooms any time in the <strong>Places</strong> tab: type a name, tap <strong>Add</strong>, then open the place to add rooms.</p>
+  </section>
+
+  <section class="tut" id="open">
+    <h2>5. Scan a label to open a box</h2>
+    <p class="why">This is the payoff: point your phone at a box and see what is inside.</p>
+    <ol class="steps">
+      <li><div class="txt">Open the iPhone <strong>Camera</strong> app and point it at the QR label on the box.</div>
+        <img src="assets/how-to/09-qr-label.webp" alt="A StoreBox QR label" width="600" height="1305" loading="lazy" /></li>
+      <li><div class="txt">Tap the StoreBox banner that appears. StoreBox opens that box with its full item list.</div>
+        <img src="assets/how-to/11-label-opens-box.webp" alt="Camping Gear container opened from its label, with five items" width="600" height="1305" loading="lazy" /></li>
+    </ol>
+  </section>
+
+  <div class="callout" id="review">
+    <h2>We need your help</h2>
+    <p>StoreBox is built by a small independent team. If you like it, please leave a review on the App Store.</p>
+    <a class="btn" href="https://apps.apple.com/app/id6794448845?action=write-review">Write a review</a>
+  </div>
+
+  <p>Still stuck? See <a href="support.html">Support</a> or email <a href="mailto:support@getstorebox.app?subject=StoreBox%20Support">support@getstorebox.app</a>.</p>
+  <p class="credit">Demo data only. Tool photo in the scan example: &ldquo;Table of hand tools&rdquo;, Wikimedia Commons, CC0.</p>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="how-to.html">How to use</a>&middot;
+    <a href="privacy.html">Privacy</a>&middot;
+    <a href="terms.html">Terms</a>&middot;
+    <a href="support.html">Support</a>
+  </div>
+  <p>&copy; 2026 StoreBox. Built by Hex.</p>
+</footer>
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ec05e41e22cc41048bf6bcc4f1f140c0"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
