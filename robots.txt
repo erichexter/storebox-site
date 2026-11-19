@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://getstorebox.app/sitemap.xml

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StoreBox — Know what's in every tote</title>
-  <meta name="description" content="For the DIY crowd who build racks of 27-gallon totes: StoreBox catalogs what's inside every identical opaque bin, so you find anything without pulling one down. Private, on-device, no account." />
+  <title>StoreBox – Tote &amp; Bin Inventory App with QR Labels (iPhone)</title>
+  <meta name="description" content="Know what's in every storage tote. Print QR labels, snap a photo and AI lists what's inside, then search every bin. Free iPhone &amp; iPad app, no account." />
+  <link rel="canonical" href="https://getstorebox.app/" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="apple-itunes-app" content="app-id=6794448845" />
   <meta property="og:type" content="website" />
@@ -15,6 +16,25 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="StoreBox — Know what's in every tote" />
   <meta name="twitter:image" content="https://getstorebox.app/assets/og.png" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"MobileApplication",
+   "name":"StoreBox: Tote & Bin Inventory","alternateName":"StoreBox",
+   "description":"Tote and bin inventory app: print a QR label for each storage tote, catalog what is inside, and search every bin from your iPhone. Optional AI photo scan by subscription.",
+   "operatingSystem":"iOS 15.0 or later",
+   "applicationCategory":"BusinessApplication","applicationSubCategory":"Productivity",
+   "url":"https://getstorebox.app/",
+   "downloadUrl":"https://apps.apple.com/us/app/storebox-tote-bin-inventory/id6794448845",
+   "image":"https://getstorebox.app/assets/og.png",
+   "screenshot":["https://getstorebox.app/assets/screens/home.png","https://getstorebox.app/assets/screens/search.png","https://getstorebox.app/assets/screens/label.png"],
+   "offers":[
+    {"@type":"Offer","name":"StoreBox (free download)","price":"0","priceCurrency":"USD"},
+    {"@type":"Offer","name":"StoreBox Basic (monthly subscription, in-app)","price":"2.99","priceCurrency":"USD"},
+    {"@type":"Offer","name":"StoreBox Basic - Yearly (in-app)","price":"19.99","priceCurrency":"USD"},
+    {"@type":"Offer","name":"StoreBox Pro (monthly subscription, in-app)","price":"9.99","priceCurrency":"USD"},
+    {"@type":"Offer","name":"StoreBox Pro - Yearly (in-app)","price":"49.99","priceCurrency":"USD"}],
+   "author":{"@type":"Person","name":"Eric Hexter"},
+   "copyrightHolder":{"@type":"Organization","name":"OOM Hexception LLC"}}
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -99,6 +119,7 @@
     .appstore-badge { display: inline-block; line-height: 0; transition: transform 0.15s; }
     .appstore-badge:hover { transform: translateY(-1px); text-decoration: none; }
     .appstore-badge img { height: 54px; width: auto; display: block; }
+    .kicker { font-size: clamp(1.1rem, 2.4vw, 1.4rem); font-weight: 750; letter-spacing: -0.3px; margin-top: 0.6rem; color: var(--fg); }
     .hero-note { color: var(--muted); font-size: 0.82rem; margin-top: 1.1rem; font-family: var(--mono); }
 
     /* ---- Sections ---- */
@@ -135,7 +156,7 @@
     .screen figure { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
     .phone {
       border: 1px solid var(--border); border-radius: 30px; overflow: hidden;
-      background: #fff; box-shadow: 0 24px 60px rgba(0,0,0,0.45); max-width: 260px;
+      background: #fff; box-shadow: 0 24px 60px rgba(0,0,0,0.45); max-width: 260px; height: auto;
     }
     .screen figcaption { color: var(--muted); font-size: 0.95rem; text-align: center; max-width: 30ch; }
     .screen figcaption b { color: var(--fg); font-weight: 700; }
@@ -173,7 +194,7 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">Store<span>Box</span></a>
+  <a href="/" class="nav-logo">Store<span>Box</span></a>
   <div class="nav-links">
     <a href="#how" class="plain">How it works</a>
     <a href="how-to.html" class="plain">How to use</a>
@@ -190,7 +211,8 @@
   <div class="hero-scrim"></div>
   <div class="hero-inner">
     <span class="eyebrow">For the rack builders</span>
-    <h1>You built the rack.<br />Now know <span class="hl">every tote.</span></h1>
+    <h1>Tote &amp; bin inventory<br />for the rack <span class="hl">you built.</span></h1>
+    <p class="kicker">You built the rack. Now know every tote.</p>
     <p class="sub">You spent the weekend building shelving for a wall of 27-gallon totes. They look great — and completely identical. Snap a photo of each bin and StoreBox's AI lists what's inside, so you find anything without pulling a single tote down.</p>
     <div class="hero-actions">
       <a href="https://apps.apple.com/us/app/id6794448845" class="appstore-badge" aria-label="Download StoreBox on the App Store"><img src="assets/app-store-badge.svg" alt="Download on the App Store" height="54" /></a>
@@ -287,7 +309,7 @@
       <p class="ai-punch">A wall of 30 identical totes, cataloged in one sitting.</p>
     </div>
     <div class="ai-phone">
-      <img class="phone" src="assets/screens/blitz.png" alt="StoreBox Blitz mode — snap a photo and confirm AI-detected items" />
+      <img class="phone" src="assets/screens/blitz.png" width="1290" height="2796" loading="lazy" alt="StoreBox Blitz mode — snap a photo and confirm AI-detected items" />
     </div>
   </div>
 </section>
@@ -300,19 +322,19 @@
   </div>
   <div class="wrap screens">
     <div class="screen"><figure>
-      <img class="phone" src="assets/screens/home.png" alt="StoreBox home screen listing labeled containers" />
+      <img class="phone" src="assets/screens/home.png" width="1290" height="2796" loading="lazy" alt="StoreBox home screen listing labeled containers" />
       <figcaption><b>Every tote, numbered.</b> Each bin is a tap away, with a count of what's inside.</figcaption>
     </figure></div>
     <div class="screen"><figure>
-      <img class="phone" src="assets/screens/label.png" alt="A printable QR label for a container" />
+      <img class="phone" src="assets/screens/label.png" width="1290" height="2796" loading="lazy" alt="A printable QR label for a container" />
       <figcaption><b>Print a QR label.</b> Print on any printer — sized to look sharp on a Brother QL. Scan it to jump straight to the tote.</figcaption>
     </figure></div>
     <div class="screen"><figure>
-      <img class="phone" src="assets/screens/search.png" alt="Searching items and finding which container holds them" />
+      <img class="phone" src="assets/screens/search.png" width="1290" height="2796" loading="lazy" alt="Searching items and finding which container holds them" />
       <figcaption><b>Search, don't dig.</b> One word like "lights" finds every match across every tote.</figcaption>
     </figure></div>
     <div class="screen"><figure>
-      <img class="phone" src="assets/screens/blitz-snap.png" alt="Blitz mode capturing a tote to catalog it" />
+      <img class="phone" src="assets/screens/blitz-snap.png" width="1290" height="2796" loading="lazy" alt="Blitz mode capturing a tote to catalog it" />
       <figcaption><b>Blitz, in action.</b> Snap a tote, confirm the AI's list, next bin — down the whole rack.</figcaption>
     </figure></div>
   </div>
